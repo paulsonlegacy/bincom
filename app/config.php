@@ -44,23 +44,23 @@ if ($_SERVER["SERVER_NAME"]  == "localhost") {
 
     // DATABASE PARAMETERS FOR PRODUCTION/LIVE
     define('DBHOST', "localhost");
-    define('DBNAME', "bincom_test_db");
-    define('DBUSER', "bincom_user");
+    define('DBNAME', "fomoexor_bincom");
+    define('DBUSER', "fomoexor_user2");
     define('DBPASS', "p@ssword123");
 
     // HTML BASE PATHS
-    define('ROOT', "//asset-tradeinvestment.ltd");
+    define('ROOT', "//fomoex.org/bincom");
     define('MEDIA_ROOT', ROOT . '/media');
     define('STATIC_ROOT', ROOT . '/assets');
 
     // EMAIL CONFIG
-    define('EMAIL_HOST', "mail.asset-tradeinvestment.ltd");
-    define('EMAIL_USERNAME', "support@asset-tradeinvestment.ltd");
-    define('EMAIL_PASSWORD', "p@ssword123");
+    define('EMAIL_HOST', "");
+    define('EMAIL_USERNAME', "");
+    define('EMAIL_PASSWORD', "");
     define('EMAIL_PORT', 465);
 
     // OTHERS
-    define('DOMAIN', 'asset-tradeinvestment.ltd');
+    define('DOMAIN', 'fomoex.org/bincom');
 }
 
 // SECURING OUR SESSIONS
