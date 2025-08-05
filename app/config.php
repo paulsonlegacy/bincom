@@ -1,0 +1,104 @@
+<?php
+/*
+// FOR HOLDING GLOBAL/GENERAL VARIABLES AND SETTINGS
+// HAS TO BE THE FIRST LOADED FILE
+// DECLARE VARIABLES AS CONSTANTS TO BE ACCESSIBLE GLOBALLY
+// SESSIONS CONFIGURATION
+*/ 
+
+
+// PHP BASE PATHS
+define('APP_PATH', __DIR__ . '/../');
+define('MEDIA_PATH', APP_PATH . 'media/');
+define('STATIC_PATH', APP_PATH . 'assets/');
+define('VIEW_PATH', APP_PATH . 'views/');
+
+// SERVER & DEVELOPMENT CONFIGURATIONS
+if ($_SERVER["SERVER_NAME"]  == "localhost") {
+
+    /********** DEVELOPMENT CONFIG **********/
+
+    // DATABASE PARAMETERS FOR LOCALHOST
+    define('DBHOST', "localhost");
+    define('DBNAME', "bincom_test");
+    define('DBUSER', "root");
+    define('DBPASS', "");
+
+    // HTML BASE PATHS
+    define('ROOT', "http://localhost/bincom");
+    define('MEDIA_ROOT', ROOT . '/media');
+    define('STATIC_ROOT', ROOT . '/assets');
+
+    // EMAIL CONFIG
+    define('EMAIL_HOST', "");
+    define('EMAIL_USERNAME', "");
+    define('EMAIL_PASSWORD', "");
+    define('EMAIL_PORT', 465);
+
+    // OTHERS
+    define('DOMAIN', 'localhost');
+
+} else {
+    
+    /********** LIVE CONFIG **********/
+
+    // DATABASE PARAMETERS FOR PRODUCTION/LIVE
+    define('DBHOST', "localhost");
+    define('DBNAME', "bincom_test_db");
+    define('DBUSER', "bincom_user");
+    define('DBPASS', "p@ssword123");
+
+    // HTML BASE PATHS
+    define('ROOT', "//asset-tradeinvestment.ltd");
+    define('MEDIA_ROOT', ROOT . '/media');
+    define('STATIC_ROOT', ROOT . '/assets');
+
+    // EMAIL CONFIG
+    define('EMAIL_HOST', "mail.asset-tradeinvestment.ltd");
+    define('EMAIL_USERNAME', "support@asset-tradeinvestment.ltd");
+    define('EMAIL_PASSWORD', "p@ssword123");
+    define('EMAIL_PORT', 465);
+
+    // OTHERS
+    define('DOMAIN', 'asset-tradeinvestment.ltd');
+}
+
+// SECURING OUR SESSIONS
+ini_set('session.use_only_cookies', 1);
+ini_set('session.use_strict_mode', 1);
+// ini_set('display_errors', 1);
+// ini_set('display_startup_errors', 1);
+// error_reporting(E_ALL);
+
+session_set_cookie_params([
+    'lifetime'=> 60 * 60,     // Session cookie lifetime in seconds before being destroyed (1 Hour/60min)
+    'domain'=> DOMAIN,     // Change this to the proper domain name in production i.e example.com
+    'path'=> '/',     // Allow any path inside our website
+    'secure'=> false,     // Change this to "true" in production while using SSL (Https)
+    'httponly'=> true,     // Restricts script access to clients
+]);
+
+// START SESSION
+session_start();
+
+// FURTHER SECURING OUR SESSIONS
+if (!isset($_SESSION['last_regeneration'])) {
+    // If not set then user is running the page for the first time
+
+    // Regenerate our session ID to a stronger version
+    session_regenerate_id(true);
+    // Set the regeneration time to the current time
+    $_SESSION['last_regeneration'] = time();
+
+} else {
+    // Amount of time in seconds to check
+    $interval = 15 * 60; // Every 15min - Convert from minute to seconds
+
+    // Checking if current time has reached or exceeded the interval
+    // time that we want to regenerate to a new version
+    if (time()- $_SESSION['last_regeneration'] >= $interval) {
+        // Regenerate our session ID to a stronger version
+        session_regenerate_id(true);
+        $_SESSION['last_regeneration'] = time();
+    }
+}
