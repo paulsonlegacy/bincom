@@ -489,6 +489,17 @@ function fetch_lga(int $lga_id): array {
     return [];
 }
 
+
+function fetch_pu(int $pu_id): array {
+    $matched_polling_units = query_fetch("SELECT * FROM polling_unit WHERE uniqueid = $pu_id LIMIT 1");
+
+    if (!empty($matched_polling_units)) {
+        return $matched_polling_units[0];
+    }
+    
+    return [];
+}
+
 // FUNCTION TO SEND MAIL
 function send_mail($from, $to, $subject, $message) {
     $headers = "From: $from\r\n";
